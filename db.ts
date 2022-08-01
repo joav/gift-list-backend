@@ -42,3 +42,11 @@ export async function findOne<T = any>(collection: string, findData: {filter: an
   const { document } = await dataResponse.json();
   return document;
 }
+
+export async function deleteMany(collection: string, filter: any): Promise<number> {
+  const query = createQuery(collection, { filter });
+  const options = createOptions(query);
+  const dataResponse = await fetch(uri('deleteMany'), options);
+  const { deletedCount } = await dataResponse.json();
+  return deletedCount;
+}

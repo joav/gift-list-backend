@@ -1,4 +1,4 @@
-import { findOne, insertOne } from "../db.ts";
+import { deleteMany, findOne, insertOne } from "../db.ts";
 import { Box, BoxWithoutPassword, CreateBox } from "../schemas/box.ts";
 import { createHash } from "../utils/passwords.ts";
 import * as R from "https://deno.land/x/ramda@v0.27.2/mod.ts";
@@ -25,4 +25,8 @@ export async function create(box: CreateBox): Promise<Box> {
 
 export async function getByCode(code: string): Promise<Box | null> {
   return await findOne<Box>(COLLECTION, {filter: { code }});
+}
+
+export function deleteAll(): Promise<number> {
+  return deleteMany(COLLECTION, {});
 }

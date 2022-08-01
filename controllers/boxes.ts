@@ -1,5 +1,5 @@
 import { Request, Response } from "https://deno.land/x/oak@v10.6.0/mod.ts";
-import { create, clearBox, getByCode } from "../repositories/box.ts";
+import { create, clearBox, getByCode, deleteAll } from "../repositories/box.ts";
 import { getBody } from "../utils/get-body.ts";
 import { CreateBoxSchema } from "../schemas/box.ts";
 import { ZodError } from "https://deno.land/x/zod@v3.17.9/ZodError.ts";
@@ -53,6 +53,28 @@ export const getBox = async ({
       responseBody.success = false;
       responseBody.msg = "Not Found";
     }
+  } catch (err) {
+    console.log(err);
+    responseBody.success = false;
+    status = 500;
+    responseBody.msg = err.toString();
+  }
+  response.status = status;
+  response.body = responseBody;
+};
+
+export const deleteAllBoxes = async ({
+  response,
+}: {
+  request: Request;
+  response: Response;
+}) => {
+  let status = 200;
+  const responseBody: ResponseBody = {
+    success: true
+  };
+  try {
+    responseBody.data = await deleteAll();
   } catch (err) {
     console.log(err);
     responseBody.success = false;
