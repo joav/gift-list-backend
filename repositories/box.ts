@@ -13,13 +13,15 @@ export async function create(box: CreateBox): Promise<Box> {
   const _id = await insertOne(COLLECTION, {
     ...box,
     code,
+    new: true,
     password: await createHash(box.password)
   });
 
   return {
     _id,
     code,
-    ...box  
+    new: true,
+    ...box
   };
 }
 

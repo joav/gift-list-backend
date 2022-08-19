@@ -4,6 +4,7 @@ import { OccasionSchema } from "./occasion.ts";
 const ListSchema = z.object({
   _id: z.string(),
   code: z.string(),
+  new: z.boolean(),
   ownerName: z.string(),
   name: z.string(),
   intro: z.string(),
@@ -11,7 +12,7 @@ const ListSchema = z.object({
   password: z.string()
 });
 
-export const CreateListSchema = ListSchema.omit({_id: true, code: true});
+export const CreateListSchema = ListSchema.omit({_id: true, code: true, new: true});
 
 export type List = z.infer<typeof ListSchema>;
 export type CreateList = z.infer<typeof CreateListSchema>;

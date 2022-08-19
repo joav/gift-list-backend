@@ -4,6 +4,7 @@ import { OccasionSchema } from "./occasion.ts";
 const BoxSchema = z.object({
   _id: z.string(),
   code: z.string(),
+  new: z.boolean(),
   ownerName: z.string(),
   name: z.string(),
   intro: z.string(),
@@ -11,7 +12,7 @@ const BoxSchema = z.object({
   password: z.string()
 });
 
-export const CreateBoxSchema = BoxSchema.omit({_id: true, code: true});
+export const CreateBoxSchema = BoxSchema.omit({_id: true, code: true, new: true});
 
 export type Box = z.infer<typeof BoxSchema>;
 export type CreateBox = z.infer<typeof CreateBoxSchema>;
