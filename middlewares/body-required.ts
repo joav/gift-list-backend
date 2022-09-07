@@ -6,7 +6,7 @@ export const bodyRequired = async ({
   request: Request;
   response: Response;
 }, next: () => Promise<unknown>) => {
-  if (!request.hasBody) {
+  if (!request.hasBody || !request.headers.get('content-type')) {
     response.status = 400;
     response.body = {
       success: false,

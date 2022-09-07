@@ -50,3 +50,11 @@ export async function deleteMany(collection: string, filter: any): Promise<numbe
   const { deletedCount } = await dataResponse.json();
   return deletedCount;
 }
+
+export async function updateOne(collection: string, filter: any, update: any): Promise<number> {
+  const query = createQuery(collection, { filter, update });
+  const options = createOptions(query);
+  const dataResponse = await fetch(uri('updateOne'), options);
+  const { modifiedCount } = await dataResponse.json();
+  return modifiedCount;
+}

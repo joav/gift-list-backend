@@ -1,5 +1,5 @@
-import { deleteMany, findOne, insertOne } from "../db.ts";
-import { Box, BoxWithoutPassword, CreateBox } from "../schemas/box.ts";
+import { deleteMany, findOne, insertOne, updateOne } from "../db.ts";
+import { Box, BoxWithoutPassword, CreateBox, EditBox } from "../schemas/box.ts";
 import { createHash } from "../utils/passwords.ts";
 import * as R from "https://deno.land/x/ramda@v0.27.2/mod.ts";
 import { generateUID } from "../utils/generate-uid.ts";
@@ -31,4 +31,14 @@ export async function getByCode(code: string): Promise<Box | null> {
 
 export function deleteAll(): Promise<number> {
   return deleteMany(COLLECTION, {});
+}
+
+export async function edit(code: string, box: EditBox): Promise<number> {
+  const editBox = box.password ? {
+    ...box,
+    password: await createHash(box.password)
+  } : box;
+  return await updateOne(COLLECTION, { code }, {
+    $set: editBox
+  });
 }

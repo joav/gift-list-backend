@@ -1,0 +1,26 @@
+@baseurl = http://localhost:3000
+
+POST {{baseurl}}/api/auth
+Content-Type: application/json
+
+{
+  "code": "s0ppex",
+  "password": "jimmy",
+  "type": "box"
+}
+
+######
+
+PUT {{baseurl}}/api/boxes/s0ppex
+Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzMHBwZXgiLCJleHAiOjE2NjI1NzY5MDMsImlhdCI6MTY2MjU3MzMwMywidHlwIjoiYm94In0.cYos22LB18YpzUtToKeSHHhPH6g-Nm8NANOs8aj_Q8nW75GRhTiE9HkJFjOQ9fkg1T5lw-ykyZT0wwU7GexcQg
+Content-Type: application/json
+
+{
+  "ownerName": "Jimmy Acero",
+  "name": "Mi buzón navideño",
+  "intro": "Hola familia, los invito a que me dejen sus deseos navideños"
+}
+
+#######
+
+GET {{baseurl}}/api/lists/jia9mu
