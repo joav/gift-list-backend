@@ -11,7 +11,9 @@ const BoxSchema = z.object({
   name: z.string(),
   intro: z.string(),
   occasion: OccasionSchema,
-  password
+  password,
+  nLists: z.number().default(0),
+  nGifts: z.number().default(0)
 });
 
 export const CreateBoxSchema = BoxSchema.omit({_id: true, code: true, new: true});
@@ -25,3 +27,4 @@ export type Box = z.infer<typeof BoxSchema>;
 export type CreateBox = z.infer<typeof CreateBoxSchema>;
 export type EditBox = z.infer<typeof EditBoxSchema>;
 export type BoxWithoutPassword = Omit<Box, 'password'>;
+export type BoxCounters = Pick<Box, 'nGifts' | 'nLists'>;

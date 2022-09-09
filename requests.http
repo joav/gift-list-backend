@@ -24,3 +24,13 @@ Content-Type: application/json
 #######
 
 GET {{baseurl}}/api/lists/jia9mu
+
+#####
+
+POST {{baseurl}}/api/boxes/s0ppex/add-list
+Content-Type: application/json
+
+{
+  "listCode": "z9f1h6",
+  "showName": false
+}

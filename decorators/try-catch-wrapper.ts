@@ -1,9 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 import { ZodError } from "https://deno.land/x/zod@v3.17.9/ZodError.ts";
+import { AggregationError } from "../errors/aggregation.ts";
 import { NotFoundError } from "../errors/not-found.ts";
 import { ResponseBody } from "../models/response-body.ts";
+import { Logger } from "../utils/logger.ts";
 
-export const TryCatchWrapper = (defaultStatus: number, ) => (_target: any, _key: any, descriptor: any) => {
+const logger = new Logger("TryCatchWrapper");
+
+export const TryCatchWrapper = (defaultStatus: number, ): MethodDecorator => (_target: unknown, _key: string | symbol, descriptor: PropertyDescriptor) => {
   const fn = descriptor.value;
   descriptor.value = async (...args: any[]) => {
     let status = defaultStatus;
@@ -13,7 +17,7 @@ export const TryCatchWrapper = (defaultStatus: number, ) => (_target: any, _key:
     try {
       responseBody.data = await fn.apply(this, args);
     } catch (err) {
-      console.log(err);
+      logger.error(err);
       responseBody.success = false;
       status = 500;
       responseBody.msg = err.toString();
@@ -21,6 +25,9 @@ export const TryCatchWrapper = (defaultStatus: number, ) => (_target: any, _key:
         status = 404;
         responseBody.success = false;
         responseBody.msg = "Not Found";
+      }
+      if (err instanceof AggregationError) {
+        status = 400;
       }
       if (err instanceof ZodError) {
         status = 400;

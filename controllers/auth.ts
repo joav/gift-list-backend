@@ -5,6 +5,9 @@ import { ResponseBody } from "../models/response-body.ts";
 import { createToken } from "../repositories/auth.ts";
 import { AuthSchema } from "../schemas/auth.ts";
 import { getBody } from "../utils/get-body.ts";
+import { Logger } from "../utils/logger.ts";
+
+const logger = new Logger("AuthController");
 
 export const login = async ({
   request,
@@ -23,7 +26,7 @@ export const login = async ({
     
     responseBody.data = await createToken(data);
   } catch (err) {
-    console.log(err);
+    logger.errorWithChannel('login', err);
     responseBody.success = false;
     status = 500;
     responseBody.msg = err.toString();

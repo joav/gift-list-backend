@@ -58,3 +58,19 @@ export async function updateOne(collection: string, filter: any, update: any): P
   const { modifiedCount } = await dataResponse.json();
   return modifiedCount;
 }
+
+export async function findMultiple<T = any>(collection: string, findData: {filter: any; projection?: any; sort?: any}): Promise<T[]> {
+  const query = createQuery(collection, findData);
+  const options = createOptions(query);
+  const dataResponse = await fetch(uri('find'), options);
+  const { documents } = await dataResponse.json();
+  return documents;
+}
+
+export async function executeAggregate<T = any>(collection: string, pipeline: any[]): Promise<T[]> {
+  const query = createQuery(collection, pipeline);
+  const options = createOptions(query);
+  const dataResponse = await fetch(uri('aggregate'), options);
+  const { documents } = await dataResponse.json();
+  return documents;
+}

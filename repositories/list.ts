@@ -1,5 +1,5 @@
-import { deleteMany, findOne, insertOne } from "../db.ts";
-import { List, ListWithoutPassword, CreateList } from "../schemas/list.ts";
+import { deleteMany, findOne, insertOne, updateOne } from "../db.ts";
+import { List, ListWithoutPassword, CreateList, ListCounters } from "../schemas/list.ts";
 import { createHash } from "../utils/passwords.ts";
 import * as R from "https://deno.land/x/ramda@v0.27.2/mod.ts";
 import { generateUID } from "../utils/generate-uid.ts";
@@ -31,4 +31,10 @@ export async function getByCode(code: string): Promise<List | null> {
 
 export function deleteAll(): Promise<number> {
   return deleteMany(COLLECTION, {});
+}
+
+export async function updateCounters(code: string, counters: ListCounters): Promise<number> {
+  return await updateOne(COLLECTION, { code }, {
+    $inc: counters
+  });
 }
