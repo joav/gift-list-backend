@@ -68,7 +68,7 @@ export async function findMultiple<T = any>(collection: string, findData: {filte
 }
 
 export async function executeAggregate<T = any>(collection: string, pipeline: any[]): Promise<T[]> {
-  const query = createQuery(collection, pipeline);
+  const query = createQuery(collection, { pipeline });
   const options = createOptions(query);
   const dataResponse = await fetch(uri('aggregate'), options);
   const { documents } = await dataResponse.json();
