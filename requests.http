@@ -1,4 +1,6 @@
 @baseurl = http://localhost:3000
+@auth = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzMHBwZXgiLCJleHAiOjE2NjI3NTg5MDMsImlhdCI6MTY2Mjc1NTMwMywidHlwIjoiYm94In0.qOAAuF7J1MvbEen9mbC8sachNYp1yCduo7UdhEES_ibQDAb6CHX3vAEnPYB8rsecNbqrN0UTiktvUm-7cyJBTg
+# @auth = eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqaWE5bXUiLCJleHAiOjE2NjI3NjIxNTQsImlhdCI6MTY2Mjc1ODU1NCwidHlwIjoibGlzdCJ9.R0YagkKCemn4XXfGl9c2CrDwkCiwDnOhCwNo2zJR6FPB-CmnzKxzMIr9eIRWeAiD1MbpOFEEk5-dawrDktB1Lw
 
 POST {{baseurl}}/api/auth
 Content-Type: application/json
@@ -9,10 +11,21 @@ Content-Type: application/json
   "type": "box"
 }
 
+#####
+
+POST {{baseurl}}/api/auth
+Content-Type: application/json
+
+{
+  "code": "jia9mu",
+  "password": "jimmy",
+  "type": "list"
+}
+
 ######
 
 PUT {{baseurl}}/api/boxes/s0ppex
-Authorization: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzMHBwZXgiLCJleHAiOjE2NjI1NzY5MDMsImlhdCI6MTY2MjU3MzMwMywidHlwIjoiYm94In0.cYos22LB18YpzUtToKeSHHhPH6g-Nm8NANOs8aj_Q8nW75GRhTiE9HkJFjOQ9fkg1T5lw-ykyZT0wwU7GexcQg
+Authorization: {{auth}}
 Content-Type: application/json
 
 {
@@ -27,10 +40,19 @@ GET {{baseurl}}/api/lists/jia9mu
 
 #####
 
-POST {{baseurl}}/api/boxes/s0ppex/add-list
+POST {{baseurl}}/api/boxes/s0ppex/lists
 Content-Type: application/json
 
 {
-  "listCode": "z9f1h6",
-  "showName": false
+  "listCode": "jia9mu",
+  "showName": true
 }
+
+######
+
+GET {{baseurl}}/api/boxes/s0ppex/last-lists?limit=3
+
+######
+
+GET {{baseurl}}/api/boxes/s0ppex/lists
+Authorization: {{auth}}

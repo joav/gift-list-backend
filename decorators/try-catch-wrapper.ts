@@ -2,6 +2,7 @@
 import { ZodError } from "https://deno.land/x/zod@v3.17.9/ZodError.ts";
 import { AggregationError } from "../errors/aggregation.ts";
 import { NotFoundError } from "../errors/not-found.ts";
+import { QueryParamsError } from "../errors/query-params.ts";
 import { ResponseBody } from "../models/response-body.ts";
 import { Logger } from "../utils/logger.ts";
 
@@ -27,6 +28,9 @@ export const TryCatchWrapper = (defaultStatus: number, ): MethodDecorator => (_t
         responseBody.msg = "Not Found";
       }
       if (err instanceof AggregationError) {
+        status = 400;
+      }
+      if (err instanceof QueryParamsError) {
         status = 400;
       }
       if (err instanceof ZodError) {

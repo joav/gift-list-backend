@@ -15,3 +15,4 @@ export const CompleteListBoxSchema = ListBoxSchema.extend({list: ListSchema})
 export type ListBox = z.infer<typeof ListBoxSchema>;
 export type CreateListBox = z.infer<typeof CreateListBoxSchema>;
 export type CompleteListBox = z.infer<typeof CompleteListBoxSchema>;
+export type ListBoxQuery = Partial<Pick<ListBox, "boxCode" | "listCode" | "showName">>;

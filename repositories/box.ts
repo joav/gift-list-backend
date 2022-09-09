@@ -3,7 +3,7 @@ import { Box, BoxCounters, BoxWithoutPassword, CreateBox, EditBox } from "../sch
 import { createHash } from "../utils/passwords.ts";
 import * as R from "https://deno.land/x/ramda@v0.27.2/mod.ts";
 import { generateUID } from "../utils/generate-uid.ts";
-import { CompleteListBox, CreateListBox, ListBox } from "../schemas/list-in-box.ts";
+import { CompleteListBox, CreateListBox, ListBox, ListBoxQuery } from "../schemas/list-in-box.ts";
 
 const COLLECTION = "boxes";
 const LIST_BOX_COLLECTION = "lists-box";
@@ -61,13 +61,14 @@ export async function updateCounters(code: string, counters: BoxCounters): Promi
   });
 }
 
-export async function getListsBox(boxCode: string): Promise<CompleteListBox[]> {
+export async function getListsBox(query: ListBoxQuery, sort?: unknown, limit?: number): Promise<CompleteListBox[]> {
   return await executeAggregate(LIST_BOX_COLLECTION, [
     {
-      "$match": {
-        boxCode
-      }
-    }, {
+      "$match": query
+    },
+    ...(sort ? [{ "$sort": sort }]: []),
+    ...(limit ? [{ "$limit": limit }]: []),
+    {
       "$lookup": {
         "from": "lists", 
         "localField": "listCode", 
